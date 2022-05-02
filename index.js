@@ -30,7 +30,7 @@ async function run(){
             // console.log(id);
             const query = { _id: ObjectId(id) };
             const singleItem = await itemCollection.findOne(query);
-            console.log(query, singleItem)
+            // console.log(query, singleItem)
             res.send(singleItem);
         });
 
@@ -40,6 +40,21 @@ async function run(){
             const addItem = await itemCollection.insertOne(newItem);
             res.send(addItem);
         });
+
+        // Item Update
+        app.put('/inventory/:id', async(req,res) =>{
+            const id = req.params.id;
+            const updatedItem = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options = {upsert: true};
+            const updatedInfo = {
+                $set: {
+                    quantity: updatedItem.quantity,
+                }
+            };
+            const updatedResult = await itemCollection.updateOne(filter, updatedInfo, options);
+            res.send(updatedResult);
+        })
 
         // Item Delete
         app.delete('/inventory/:id', async(req,res) =>{
