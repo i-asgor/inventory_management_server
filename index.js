@@ -45,6 +45,7 @@ async function run(){
         app.put('/inventory/:id', async(req,res) =>{
             const id = req.params.id;
             const updatedItem = req.body;
+            console.log(updatedItem)
             const filter = {_id: ObjectId(id)};
             const options = {upsert: true};
             const updatedInfo = {
